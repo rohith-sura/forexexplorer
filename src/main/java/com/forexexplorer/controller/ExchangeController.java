@@ -11,8 +11,7 @@ public class ExchangeController {
 
     @GetMapping(value = "/sample")
     public ResponseEntity<String> sample() {
-        return ResponseEntity.ok("Hello World");
+        return ResponseEntity.ok("Rohith, the great!!!");
     }
 
-    
 }
