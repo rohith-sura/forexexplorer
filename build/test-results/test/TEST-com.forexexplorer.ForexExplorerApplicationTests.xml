@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.forexexplorer.ForexExplorerApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-29T00:43:32" hostname="ROHITHSURA" time="0.651">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.forexexplorer.ForexExplorerApplicationTests" time="0.651"/>
+  <system-out><![CDATA[19:43:30.887 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.forexexplorer.ForexExplorerApplicationTests]: ForexExplorerApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+19:43:30.976 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.forexexplorer.ForexExplorerApplication for test class com.forexexplorer.ForexExplorerApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.2)
+
+2024-01-28T19:43:31.312-05:00  INFO 7480 --- [    Test worker] c.f.ForexExplorerApplicationTests        : Starting ForexExplorerApplicationTests using Java 17.0.7 with PID 7480 (started by RohithSura in F:\Dev\Forex Explorer\forexexplorer)
+2024-01-28T19:43:31.314-05:00  INFO 7480 --- [    Test worker] c.f.ForexExplorerApplicationTests        : No active profile set, falling back to 1 default profile: "default"
+2024-01-28T19:43:32.356-05:00  INFO 7480 --- [    Test worker] c.f.ForexExplorerApplicationTests        : Started ForexExplorerApplicationTests in 1.201 seconds (process running for 2.253)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
