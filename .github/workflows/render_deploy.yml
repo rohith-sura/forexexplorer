@@ -1,6 +1,8 @@
 name: Render Hook to trigger render deploy job
 
 on:
+  push:
+    branches: [ "master" ]
   workflow_dispatch:
   
 jobs:
