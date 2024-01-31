@@ -6,5 +6,5 @@ RUN ./gradlew bootJar --no-daemon
 
 FROM openjdk:17-jdk-slim
 EXPOSE 8080
-COPY --from=build /build/libs/forexexplorer-0.0.1-SNAPSHOT.jar forexexplorer.jar
-ENTRYPOINT ["java", "-jar", "/forexexplorer.jar"]
+COPY --from=build /build/libs/forex-explorer-0.0.1-SNAPSHOT.jar forex-explorer.jar
+ENTRYPOINT ["java", "-jar", "/forex-explorer.jar"]
