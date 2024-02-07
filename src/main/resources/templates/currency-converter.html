@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Currency Converter</title>
+</head>
+<body>
+<div align="center" th:if="${currencyConverterResponse != null}">
+    <p>Conversion from <span style="color:black;font-weight:bold" th:text = "${currencyConverterResponse.fromCurrency}"></span>
+        to <span style="color:black;font-weight:bold" th:text = "${currencyConverterResponse.toCurrency}"></span>
+        for amount <span style="color:black;font-weight:bold;margin-right: 5px" th:text = "${currencyConverterResponse.amount}"></span><span style="color:black;font-weight:bold" th:text = "${currencyConverterResponse.fromCurrency}"></span>
+        is <span style="color:black;font-weight:bold;margin-right: 5px" th:text = "${currencyConverterResponse.convertedAmount}"></span><span style="color:black;font-weight:bold" th:text = "${currencyConverterResponse.toCurrency}"></span>
+        @ <span style="color:black;font-weight:bold" th:text = "${currencyConverterResponse.rate}"></span>
+        (as of <span style="color:black;font-weight:bold" th:text = "${currencyConverterResponse.dateTime}"></span>)
+    </p>
+</div>
+</body>
+</html>

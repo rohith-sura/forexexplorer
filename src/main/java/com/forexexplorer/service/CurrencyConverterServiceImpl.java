@@ -39,8 +39,8 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService{
                 .addParameter("base", fromCurrency)
                 .addParameter("currencies", toCurrency)
                 .addParameter("resolution", "1m")
-                .addParameter("amount", String.valueOf(amount))
-                .addParameter("places", "6")
+                .addParameter("amount", "1")
+                .addParameter("places", "2")
                 .addParameter("format", "json")
                 .build();
         HttpGet httpGet = new HttpGet(uri);
