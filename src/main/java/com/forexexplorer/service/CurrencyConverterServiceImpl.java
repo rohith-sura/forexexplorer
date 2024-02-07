@@ -3,6 +3,7 @@ package com.forexexplorer.service;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.forexexplorer.config.HttpClientConfig;
+import com.forexexplorer.dto.ConvertLatestDto;
 import com.forexexplorer.model.CurrencyConverterResponse;
 import com.forexexplorer.model.VendorLatestExchangeResponse;
 import lombok.AllArgsConstructor;
@@ -33,11 +34,11 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService{
     private final HttpClientConfig httpClient;
 
     @Override
-    public CurrencyConverterResponse currencyConverter(String fromCurrency, String toCurrency, BigDecimal amount) throws URISyntaxException, IOException, ParseException {
+    public CurrencyConverterResponse currencyConverter(ConvertLatestDto convertLatestDto) throws URISyntaxException, IOException, ParseException {
         URI uri = new URIBuilder(FXRATESAPI_BASE_URL)
                 .appendPath(LATEST)
-                .addParameter("base", fromCurrency)
-                .addParameter("currencies", toCurrency)
+                .addParameter("base", convertLatestDto.getFromCurrency())
+                .addParameter("currencies", convertLatestDto.getToCurrency())
                 .addParameter("resolution", "1m")
                 .addParameter("amount", "1")
                 .addParameter("places", "2")
@@ -55,15 +56,15 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService{
             VendorLatestExchangeResponse vendorResponse = mapper.readValue(responseEntity, VendorLatestExchangeResponse.class);
             if (vendorResponse != null) {
                 Map<String, Double> rates = vendorResponse.getRates();
-                Double drate = rates.get(toCurrency);
+                Double drate = rates.get(convertLatestDto.getToCurrency());
                 BigDecimal rate = BigDecimal.valueOf(drate);
                 LocalDateTime localDateTime = vendorResponse.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
                 converterResponse = CurrencyConverterResponse.builder()
                         .fromCurrency(vendorResponse.getBase())
-                        .toCurrency(toCurrency)
-                        .amount(amount)
+                        .toCurrency(convertLatestDto.getToCurrency())
+                        .amount(convertLatestDto.getAmount())
                         .rate(rate)
-                        .convertedAmount(amount.multiply(rate))
+                        .convertedAmount(convertLatestDto.getAmount().multiply(rate))
                         .dateTime(localDateTime)
                         .build();
             }

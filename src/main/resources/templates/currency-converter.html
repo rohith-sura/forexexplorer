@@ -5,14 +5,19 @@
     <title>Currency Converter</title>
 </head>
 <body>
-<div align="center" th:if="${currencyConverterResponse != null}">
-    <p>Conversion from <span style="color:black;font-weight:bold" th:text = "${currencyConverterResponse.fromCurrency}"></span>
-        to <span style="color:black;font-weight:bold" th:text = "${currencyConverterResponse.toCurrency}"></span>
-        for amount <span style="color:black;font-weight:bold;margin-right: 5px" th:text = "${currencyConverterResponse.amount}"></span><span style="color:black;font-weight:bold" th:text = "${currencyConverterResponse.fromCurrency}"></span>
-        is <span style="color:black;font-weight:bold;margin-right: 5px" th:text = "${currencyConverterResponse.convertedAmount}"></span><span style="color:black;font-weight:bold" th:text = "${currencyConverterResponse.toCurrency}"></span>
-        @ <span style="color:black;font-weight:bold" th:text = "${currencyConverterResponse.rate}"></span>
-        (as of <span style="color:black;font-weight:bold" th:text = "${currencyConverterResponse.dateTime}"></span>)
-    </p>
-</div>
+    <div align="center">
+        <form th:action="@{/currency-converter}" th:object = "${convertLatestDto}" method="POST">
+            <label for="fromCurrency">From:</label>
+            <input type="text" id="fromCurrency" name="fromCurrency" th:feild="*{fromCurrency}"/>
+            <br>
+            <label for="toCurrency">To:</label>
+            <input type="text" id="toCurrency" name="toCurrency" th:feild="*{toCurrency}"/>
+            <br>
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" th:feild="*{amount}" min="0"/>
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 </body>
 </html>
