@@ -6,9 +6,10 @@ import java.util.Date;
 import java.util.Map;
 
 @Data
-public class VendorLatestExchangeResponse {
+public class CurrencyVendorResponse {
 
     private Date date;
     private String base;
+    private String toCurrency;
     private Map<String, Double> rates;
 }

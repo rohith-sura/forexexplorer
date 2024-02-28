@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.forexexplorer.config.HttpClientConfig;
 import com.forexexplorer.dto.ConvertLatestDto;
 import com.forexexplorer.model.CurrencyConverterResponse;
-import com.forexexplorer.model.VendorLatestExchangeResponse;
+import com.forexexplorer.model.CurrencyVendorResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
@@ -23,8 +23,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Map;
 
-import static com.forexexplorer.util.ExchangeConstants.FXRATESAPI_BASE_URL;
-import static com.forexexplorer.util.ExchangeConstants.LATEST;
+import static com.forexexplorer.util.ExchangeConstants.*;
 
 @Service
 @AllArgsConstructor
@@ -45,7 +44,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService{
                 .addParameter("format", "json")
                 .build();
         HttpGet httpGet = new HttpGet(uri);
-        httpGet.addHeader("api_key", System.getenv("api_key"));
+        httpGet.addHeader(API_KEY, System.getenv("api_key"));
         CloseableHttpResponse response = httpClient.httpClient().execute(httpGet);
 
         CurrencyConverterResponse converterResponse = null;
@@ -53,7 +52,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService{
             String responseEntity = EntityUtils.toString(response.getEntity());
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            VendorLatestExchangeResponse vendorResponse = mapper.readValue(responseEntity, VendorLatestExchangeResponse.class);
+            CurrencyVendorResponse vendorResponse = mapper.readValue(responseEntity, CurrencyVendorResponse.class);
             if (vendorResponse != null) {
                 Map<String, Double> rates = vendorResponse.getRates();
                 Double drate = rates.get(convertLatestDto.getToCurrency());
@@ -65,6 +64,46 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService{
                         .amount(convertLatestDto.getAmount())
                         .rate(rate)
                         .convertedAmount(convertLatestDto.getAmount().multiply(rate))
+                        .dateTime(localDateTime)
+                        .build();
+            }
+        }
+        return converterResponse;
+    }
+
+    @Override
+    public CurrencyConverterResponse historicalData(String toDate, String fromCurrency, String toCurrency, BigDecimal amount) throws URISyntaxException, IOException, ParseException {
+
+        URI uri = new URIBuilder(FXRATESAPI_BASE_URL)
+                .appendPath(HISTORICAL_DATA)
+                .addParameter("api_key", System.getenv("api_key"))
+                .addParameter("date", toDate)
+                .addParameter("base", fromCurrency)
+                .addParameter("currencies", toCurrency)
+                .addParameter("resolution", "1m")
+                .addParameter("amount", "1")
+                .addParameter("places", "2")
+                .addParameter("format", "json")
+                .build();
+
+        HttpGet get = new HttpGet(uri);
+        CloseableHttpResponse vendorResponse = httpClient.httpClient().execute(get);
+        CurrencyConverterResponse converterResponse = null;
+        if(vendorResponse.getCode() == 200) {
+            String responseEntity = EntityUtils.toString(vendorResponse.getEntity());
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            CurrencyVendorResponse response = mapper.readValue(responseEntity, CurrencyVendorResponse.class);
+            if (response!=null) {
+                Map<String, Double> rates = response.getRates();
+                Double drate = rates.get(toCurrency);
+                BigDecimal rate = BigDecimal.valueOf(drate);
+                LocalDateTime localDateTime = response.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+                converterResponse = CurrencyConverterResponse.builder()
+                        .fromCurrency(response.getBase())
+                        .toCurrency(toCurrency)
+                        .rate(rate)
+                        .convertedAmount(amount.multiply(rate))
                         .dateTime(localDateTime)
                         .build();
             }

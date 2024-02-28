@@ -14,4 +14,6 @@ public interface CurrencyConverterService {
 
     public CurrencyConverterResponse currencyConverter(ConvertLatestDto convertLatestDto) throws URISyntaxException, IOException, ParseException;
 
+    public CurrencyConverterResponse historicalData(String toDate, String fromCurrency, String toCurrency, BigDecimal amount) throws URISyntaxException, IOException, ParseException;
+
 }
