@@ -76,7 +76,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService{
 
         URI uri = new URIBuilder(FXRATESAPI_BASE_URL)
                 .appendPath(HISTORICAL_DATA)
-                .addParameter("api_key", System.getenv("api_key"))
+                .addParameter(API_KEY, System.getenv("api_key"))
                 .addParameter("date", toDate)
                 .addParameter("base", fromCurrency)
                 .addParameter("currencies", toCurrency)
@@ -105,6 +105,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService{
                         .rate(rate)
                         .convertedAmount(amount.multiply(rate))
                         .dateTime(localDateTime)
+                        .amount(amount)
                         .build();
             }
         }
