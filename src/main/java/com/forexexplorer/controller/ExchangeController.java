@@ -5,6 +5,7 @@ import com.forexexplorer.model.CurrencyConverterResponse;
 import com.forexexplorer.service.CurrencyConverterService;
 import lombok.AllArgsConstructor;
 import org.apache.hc.core5.http.ParseException;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +39,7 @@ public class ExchangeController {
         return "convert-latest";
     }
 
-    @GetMapping(value = "historical-data")
+    @GetMapping(value = "historical-data", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CurrencyConverterResponse> historicalData(
             @RequestParam(name = "toDate") String toDate,
             @RequestParam(name = "fromCurrency") String fromCurrency,
