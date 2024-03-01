@@ -2,6 +2,7 @@ package com.forexexplorer.controller;
 
 import com.forexexplorer.dto.ConvertLatestDto;
 import com.forexexplorer.model.CurrencyConverterResponse;
+import com.forexexplorer.model.HistoricalSeriesDataResponse;
 import com.forexexplorer.service.CurrencyConverterService;
 import lombok.AllArgsConstructor;
 import org.apache.hc.core5.http.ParseException;
@@ -46,6 +47,15 @@ public class ExchangeController {
             @RequestParam(name = "toCurrency") String toCurrency,
             @RequestParam(name = "amount") BigDecimal amount) throws URISyntaxException, IOException, ParseException {
         CurrencyConverterResponse response = currencyConverterService.historicalData(toDate, fromCurrency, toCurrency, amount);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(value = "historical-series-data")
+    public ResponseEntity<HistoricalSeriesDataResponse> historicalSeriesData(
+            @RequestParam(name = "fromCurrency") String fromCurrency,
+            @RequestParam(name = "toCurrency") String toCurrency,
+            @RequestParam(name = "series") String series) throws URISyntaxException, IOException, ParseException {
+        HistoricalSeriesDataResponse response = currencyConverterService.seriesDataResponse(fromCurrency, toCurrency, series);
         return ResponseEntity.ok(response);
     }
 }
