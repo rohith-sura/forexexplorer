@@ -58,7 +58,7 @@ jobs:
     runs-on: [aws-ec2]
     steps:
       - name: Pull the image from Docker Hub
-        run: docker pull surarohith/forex-explorer:${{ steps.version-tag.outputs.version }}
+        run: docker pull surarohith/forex-explorer:latest
       - name: Delete old container
         run: docker rm -f forex-explorer-container
       - name: Run Docker Container
