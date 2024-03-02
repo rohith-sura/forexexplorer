@@ -30,24 +30,12 @@ jobs:
         uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
         with:
           arguments: build
-
-      - name: Calculate the version tag
-        id: version-tag
-        run: |
-          export TZ="America/New_York"
-          CURRENT_DATE_TIME="forexexplorer-$(date +'%Y.%m.%d-%I.%M.%S%p')"
-          COMMIT_NUMBER=${{ github.run_number }}
-          VERSION_TAG="${CURRENT_DATE_TIME}-${COMMIT_NUMBER}"
-          echo "::set-output name=tag-version::${VERSION_TAG}"
-
-      - name: Build & push Docker image
-        uses: mr-smithers-excellent/docker-build-push@v6
-        with:
-          image: surarohith/forex-explorer:latest
-          registry: docker.io
-          dockerfile: Dockerfile
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Login to Docker
+        run: login docker -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Docker build image
+        run: docker build -t surarohith/forex-explorer .
+      - name: Publish image to Docker Hub
+        run: docker push surarohith/forex-explorer:latest
 
   deploy:
     needs: build
