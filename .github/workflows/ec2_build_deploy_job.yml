@@ -57,6 +57,15 @@ jobs:
     needs: build
     runs-on: [aws-ec2]
     steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Pull the image from Docker Hub
         run: docker pull surarohith/forex-explorer:latest
       - name: Delete old container
