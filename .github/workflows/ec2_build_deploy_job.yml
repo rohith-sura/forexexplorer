@@ -43,9 +43,7 @@ jobs:
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
-          image: surarohith/forex-explorer
-          tags:
-            ${{ steps.version-tag.outputs.version }}
+          image: surarohith/forex-explorer:latest
           registry: docker.io
           dockerfile: Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -56,7 +54,7 @@ jobs:
     runs-on: [aws-ec2]
     steps:
       - name: Pull the image from Docker Hub
-        run: docker pull surarohith/forex-explorer:${{ needs.build.outputs.tag-version }}
+        run: docker pull surarohith/forex-explorer:latest
       - name: Delete old container
         run: docker rm -f forex-explorer-container
       - name: Run Docker Container
