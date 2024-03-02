@@ -19,7 +19,8 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    tag-version: ${{ steps.version-tag.outputs.tag-version }}
+    outputs:
+      tag-version: ${{ steps.version-tag.outputs.tag-version }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
