@@ -57,8 +57,8 @@ jobs:
     needs: build
     runs-on: [aws-ec2]
     steps:
-      - name: Docker compose up
-        run: docker-compose up -d
+      - name: Install Docker
+        run: sudo yum install docker -y
       - name: Pull the image from Docker Hub
         run: docker pull surarohith/forex-explorer:latest
       - name: Delete old container
