@@ -18,9 +18,8 @@ permissions:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    tag-version: ${{ steps.version-tag.outputs.tag-version }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -40,6 +39,7 @@ jobs:
           CURRENT_DATE_TIME="forexexplorer-$(date +'%Y.%m.%d-%I.%M.%S%p')"
           COMMIT_NUMBER=${{ github.run_number }}
           VERSION_TAG="${CURRENT_DATE_TIME}-${COMMIT_NUMBER}"
+          echo "::set-output name=tag-version::${VERSION_TAG}"
           echo "version=${VERSION_TAG}" >> $GITHUB_OUTPUT
 
       - name: Build & push Docker image
@@ -58,7 +58,7 @@ jobs:
     runs-on: [aws-ec2]
     steps:
       - name: Pull the image from Docker Hub
-        run: docker pull surarohith/forex-explorer:latest
+        run: docker pull surarohith/forex-explorer:${{ needs.build.outputs.tag-version }}
       - name: Delete old container
         run: docker rm -f forex-explorer-container
       - name: Run Docker Container
