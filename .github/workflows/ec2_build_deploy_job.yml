@@ -40,7 +40,7 @@ jobs:
           CURRENT_DATE_TIME="forexexplorer-$(date +'%Y.%m.%d-%I.%M.%S%p')"
           COMMIT_NUMBER=${{ github.run_number }}
           VERSION_TAG="${CURRENT_DATE_TIME}-${COMMIT_NUMBER}"
-          echo "version_tag=${VERSION_TAG}" >> $GITHUB_ENV
+          echo "version=${VERSION_TAG}" >> $GITHUB_OUTPUT
 
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v6
@@ -58,7 +58,7 @@ jobs:
     runs-on: [aws-ec2]
     steps:
       - name: Pull the image from Docker Hub
-        run: docker pull surarohith/forex-explorer:${{ env.version_tag }}
+        run: docker pull surarohith/forex-explorer:${{ steps.version-tag.outputs.version }}
       - name: Delete old container
         run: docker rm -f forex-explorer-container
       - name: Run Docker Container
