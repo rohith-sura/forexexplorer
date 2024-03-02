@@ -38,7 +38,6 @@ jobs:
           CURRENT_DATE_TIME="forexexplorer-$(date +'%Y.%m.%d-%I.%M.%S%p')"
           COMMIT_NUMBER=${{ github.run_number }}
           VERSION_TAG="${CURRENT_DATE_TIME}-${COMMIT_NUMBER}"
-          echo "version=${VERSION_TAG}" >> $GITHUB_OUTPUT
           echo "::set-output name=tag-version::${VERSION_TAG}"
 
       - name: Build & push Docker image
