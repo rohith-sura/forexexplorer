@@ -60,6 +60,8 @@ jobs:
       - name: Install Docker
         run: sudo yum install docker -y
       - name: Start Docker in background
+        run: sudo service --status-all
+      - name: Start Docker in background
         run: sudo service docker start
       - name: Pull the image from Docker Hub
         run: docker pull surarohith/forex-explorer:latest
