@@ -59,6 +59,8 @@ jobs:
     steps:
       - name: Install Docker
         run: sudo yum install docker -y
+      - name: Start Docker in background
+        run: sudo dockerd
       - name: Pull the image from Docker Hub
         run: docker pull surarohith/forex-explorer:latest
       - name: Delete old container
