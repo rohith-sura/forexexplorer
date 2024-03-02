@@ -1,5 +1,4 @@
-# forexexplorer
+# Forex Explorer
 
-Forex Explorer
-
+**Base Path: /forexexplorer**
 
