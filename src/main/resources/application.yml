@@ -1,3 +1,4 @@
 server:
   servlet:
     contextPath: /forex-explorer
+  port: 8080
