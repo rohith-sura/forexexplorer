@@ -1,4 +1,3 @@
-server:
-  servlet:
-    contextPath: /forex-explorer
-  port: 80
+spring:
+  application:
+    name: forex-spot
